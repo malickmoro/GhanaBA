@@ -9,15 +9,22 @@ import SwiftUI
 import AVKit
 
 @available(iOS 16.0, *)
+@available(iOS 17.0, *)
 
 struct ContentView: View {
-    @StateObject var viewModel = AppViewModel()
-    @StateObject var idVM = idCaptureViewModel()
-    @StateObject var cmVM = CameraModel()
-    @StateObject var pVM = PersonViewModel()
+    @EnvironmentObject var viewModel: AppViewModel
+        @StateObject var idVM = idCaptureViewModel()
+        @StateObject var pVM = PersonViewModel()
+        @StateObject var mrz = MRZCameraModel()
+        @StateObject var face = FaceCaptureModel()
 
 
-    
+        // Computed property for lazy initialization of CameraModel
+    private var cmVM: CameraModel {
+        CameraModel(appVM: viewModel)
+    }
+
+
     var body: some View {
         VStack {
             switch viewModel.currentView {
@@ -32,17 +39,19 @@ struct ContentView: View {
             case .chooseMethod:
                 ChooseMethod(appVM: viewModel)
             case .pinMethod:
-                IdCaptureView(idVM: idVM, appVM: viewModel, cmVM: cmVM, pVM: pVM)
+                IdCaptureView(idVM: idVM, appVM: viewModel, cmVM: cmVM, pVM: pVM, face: face)
             case .mrzScan:
-                MRZCaptureView(appVM: viewModel)
+                MainMRZ(appVM: viewModel)
             case .camera:
-                CameraView(model: cmVM, appVM: viewModel)
+                CameraView(model: cmVM, appVM: viewModel, mrz: MRZCameraModel())
             case .success:
-                SuccessView()
+                SuccessView(idVM: idVM, appVM: viewModel, pVM: pVM, cmVM: cmVM, face: face)
             case .noFace:
-                NoPhotoError(idVM: idVM)
+                NoPhotoError(idVM: idVM, face: face)
             case .notFound:
-                NotFoundError()
+                NotFoundError(idVM: idVM, appVM: viewModel, title: pVM.alertTitle, message: pVM.alertMessage)
+            case .mrzFace:
+                FaceCapture(cmVM: cmVM, pVM: pVM, model: mrz, face: face, idVM: idVM, appViewModel: viewModel)
             }
             
         }
@@ -50,6 +59,7 @@ struct ContentView: View {
     }
 }
 @available(iOS 16.0, *)
+@available(iOS 17.0, *)
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()

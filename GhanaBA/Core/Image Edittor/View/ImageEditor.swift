@@ -14,7 +14,7 @@ class ImageEditorView: UIViewController, CropViewControllerDelegate {
         view.backgroundColor = .systemBackground
         
         if let image = imageToEdit {
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 
                 let cropViewController = CropViewController(croppingStyle: .default, image: image)
                 cropViewController.aspectRatioPreset = .presetSquare
@@ -25,6 +25,7 @@ class ImageEditorView: UIViewController, CropViewControllerDelegate {
                 cropViewController.cancelButtonTitle = "Cancel"
                 cropViewController.cancelButtonColor = .systemRed
                 cropViewController.delegate = self
+
                 self.present(cropViewController, animated: true, completion: nil)
             }
         }
@@ -40,8 +41,7 @@ class ImageEditorView: UIViewController, CropViewControllerDelegate {
         cropViewController.dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
             self.idVM?.editedImage = image  // Update the shared model directly here
-            self.onEditingDone?(image) // Pass the cropped image to the closure
-            self.customNavController?.currentView = .pinMethod
+            self.onEditingDone?(image) // Pass the cropped image to the closure §
             self.customNavController?.showLoad = true
             self.showLoadingScreen()
         }

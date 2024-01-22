@@ -10,6 +10,24 @@
       }
     },
     {
+      "identity" : "mrzparser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/appintheair/MRZParser.git",
+      "state" : {
+        "branch" : "develop",
+        "revision" : "64b73fae8092b31d0a378f0d000c244470c7ac44"
+      }
+    },
+    {
+      "identity" : "mrzscanner",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/appintheair/MRZScanner.git",
+      "state" : {
+        "branch" : "develop",
+        "revision" : "a5448a574c097babe134712471c282cdaf1d3b53"
+      }
+    },
+    {
       "identity" : "tocropviewcontroller",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/TimOliver/TOCropViewController",

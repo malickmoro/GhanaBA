@@ -12,7 +12,7 @@ struct GetStarted: View {
     @ObservedObject var appVM: AppViewModel
     
     var logoWidth: CGFloat = 150
-    var logoHeight: CGFloat = 80
+    var logoHeight: CGFloat = 85
     var btnWidth: CGFloat = 130
     var btnHeight: CGFloat = 50
     var fontsizeBtn: Font = .callout
@@ -36,8 +36,7 @@ struct GetStarted: View {
                     VStack (spacing: 30){
                         Text("Please login to begin \nverifying Ghana cards.")
                             .foregroundStyle(blue)
-                            .font(fontsizetxt)
-                            .fontWeight(.semibold)
+                            .font(.system(size: 20, weight: .semibold))
                         
                         Button {
                             withAnimation(.bouncy){
@@ -45,8 +44,7 @@ struct GetStarted: View {
                             }
                         } label: {
                             Text("Get Started")
-                                .font(fontsizeBtn)
-                                .fontWeight(.bold)
+                                .font(.system(size: 20, weight: .medium))
                                 .foregroundStyle(.white)
                                 .frame(width: btnWidth, height: btnHeight)
                                 .background(blue)

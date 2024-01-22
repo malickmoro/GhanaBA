@@ -10,21 +10,21 @@ import UIKit
 
 // Define structs to match the JSON structure
 struct ApiResponse: Codable {
-    let found: Bool
+    let success: Bool?
     let code: String
+    let subcode: String?
     let msg: String
-    let status: String
     let data: DataResponse?
 }
 
 struct DataResponse: Codable {
-    let shortGuid: String
+    let shortGuid: String?
     let person: Person?
 }
 
 struct Person: Codable {
-    let surname: String
-    let forenames: String
+    let surname: String?
+    let forenames: String?
     let biometricFeed: BiometricFeed?
 }
 
@@ -34,14 +34,15 @@ struct BiometricFeed: Codable {
 }
 
 struct Face: Codable {
-    let dataType: String
-    let data: String
+    let dataType: String?
+    let data: String?
 }
 
 class PersonViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var generatedID: String = ""
     @Published var editedImage: UIImage?
+    @Published var mrzNumber: String = ""
     @Published var apiResponse: ApiResponse?
     
     @Published var showResponseView: Bool = false
@@ -52,59 +53,169 @@ class PersonViewModel: ObservableObject {
     
     //from the ID API
     @Published var responseCode: String?
-    @Published var responseMessage: String?
+    @Published var responseMessage: String = ""
     @Published var successValue: Bool?
     @Published var shortGuid: String?
     @Published var faceImage: UIImage?
     @Published var forename: String?
     @Published var surname: String?
     
+    func printRequest(_ request: URLRequest) {
+        var requestDetails = ""
+
+        if let url = request.url?.absoluteString {
+            print("URL: \(url)")
+            requestDetails += "URL: \(url)\n"
+        }
+        if let method = request.httpMethod {
+            print("Method: \(method)")
+            requestDetails += "Method: \(method)\n"
+        }
+        if let headers = request.allHTTPHeaderFields {
+            print("Headers: \(headers)")
+            requestDetails += "Headers: \(headers)\n"
+        }
+        if let body = request.httpBody, let bodyString = String(data: body, encoding: .utf8) {
+            print("Body: \(bodyString)")
+            requestDetails += "Body: \(bodyString)\n"
+        }
+
+        // Write to file
+        if let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let fileURL = documentDirectory.appendingPathComponent("output2.txt")
+            
+            do {
+                try requestDetails.write(to: fileURL, atomically: true, encoding: .utf8)
+                print("Successfully written to \(fileURL)")
+            } catch {
+                print("Error writing to file: \(error)")
+            }
+        }
+    }
+
+    
     func verifyIDAndImage(completion: @escaping (Bool) -> Void) {
         isLoading = true  // Start loading
         guard let image = editedImage else { return }
         
-        let pngImg = image.jpegData(compressionQuality: 0.4)?.pngFromJPEG
+        let pngImg = image.jpegData(compressionQuality: 1 )
         
-        // Generate boundary string using a unique per-app string
-        let boundary = "Boundary-\(UUID().uuidString)"
+//        if let base64String = pngImg?.base64EncodedString() { writeToFile(base64String: base64String, fileName: "output") }
         
-        let url = URL(string: "https://selfie.imsgh.org:2035/skyface/api/v1/third-party/verification/form_data")!
+        let base64String = pngImg!.base64EncodedString()
+        let url = URL(string: "https://selfie.imsgh.org:2035/skyface/api/v1/third-party/verification/base_64")!
+        let pin = self.generatedID
         let merchant_code = "69af98f5-39fb-44e6-81c7-5e496328cc59"
+        let center = "BRANCHLESS"
+        let datatype = "PNG"
+        
+        let json: [String: Any] = [
+            "pinNumber": pin,
+            "image": base64String,
+            "dataType": datatype,
+            "center": center,
+            "merchantKey": merchant_code
+        ]
+        
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: json, options: []) else {
+            print("Error creating JSON data")
+            return
+        }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+        printRequest(request)
+
+        // Start the data task
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            DispatchQueue.main.async {
+                defer { self?.isLoading = false }  // Ensure isLoading is set to false when exiting the block
+                
+                if let error = error {
+                    self?.handleNetworkError(error)
+                    completion(false)
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    self?.alertTitle = "Error"
+                    self?.alertMessage = "Invalid response from server."
+                    self?.showAlert = true
+                    completion(false)  // Ensure completion is called
+                    return
+                }
+                
+                if (200...299).contains(httpResponse.statusCode) {
+                    print(httpResponse.statusCode)
+                    if let data = data {
+                        do {
+                            let decodedResponse = try JSONDecoder().decode(ApiResponse.self, from: data)
+                            self?.apiResponse = decodedResponse
+                            self?.parseApiResponse(data: data)
+                            if decodedResponse.data?.person?.forenames != nil {
+                                
+                                completion(decodedResponse.success!)
+                            } else {
+                                self?.alertTitle = "WRONG INFORMATION"
+                                self?.alertMessage = "Face and Pin Does not match"
+                                self?.showAlert = true
+                                completion(false)  // Ensure completion is called
+                            }
+                            print(decodedResponse)
+                        } catch {
+                            self?.handleDecodingError(error)
+                            completion(false)  // Ensure completion is called
+                        }
+                    } else {
+                        self?.alertTitle = "NO DATA"
+                        self?.alertMessage = "No data received from server"
+                        self?.showAlert = true
+                        completion(false)  // Ensure completion is called
+                    }
+                } else {
+                    print(httpResponse.statusCode)
+                    self?.handleServerError(info: data)
+                    completion(false)  // Ensure completion is called
+                }
+            }
+        }.resume()
+    }
+    
+    func verifyMRZandImage(completion: @escaping (Bool) -> Void){
+        isLoading = true  // Start loading
+        guard let image = editedImage else { return }
         
-        var body = Data()
+        let pngImg = image.jpegData(compressionQuality: 1 )
         
-        // Function to append text to the body
-        func append(_ value: String, withName name: String) {
-            body.append("--\(boundary)\r\n".data(using: .utf8)!)
-            body.append("Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n".data(using: .utf8)!)
-            body.append("\(value)\r\n".data(using: .utf8)!)
+        //        if let base64String = pngImg?.base64EncodedString() { writeToFile(base64String: base64String, fileName: "output") }
+        
+        let base64String = pngImg!.base64EncodedString()
+        let url = URL(string: "https://selfie.imsgh.org:2035/skyface/api/v1/third-party/ghpay/verification/with_doc_number/base_64")!
+        let mrz = self.mrzNumber
+        let merchant_code = "69af98f5-39fb-44e6-81c7-5e496328cc59"
+        let center = "BRANCHLESS"
+        let datatype = "PNG"
+        
+        let json: [String: Any] = [
+            "pinNumber": mrz,
+            "image": base64String,
+            "dataType": datatype,
+            "center": center,
+            "merchantKey": merchant_code
+        ]
+        
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: json, options: []) else {
+            print("Error creating JSON data")
+            return
         }
         
-        // Append the pinNumber part
-        append(self.generatedID, withName: "pin")
-        
-        // Append the image part
-        if let imageData = pngImg {
-            body.append("--\(boundary)\r\n".data(using: .utf8)!)
-            body.append("Content-Disposition: form-data; name=\"image\"; filename=\"image.png\"\r\n".data(using: .utf8)!)
-            body.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
-            body.append(imageData)
-            body.append("\r\n".data(using: .utf8)!)
-        }
-        
-        // Append the merchantKey part
-        append(merchant_code, withName: "merchant_code")
-        
-        
-        // End of the body
-        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-        
-        // Set the body on the request
-        request.httpBody = body
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+        printRequest(request)
         
         // Start the data task
         URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
@@ -126,25 +237,34 @@ class PersonViewModel: ObservableObject {
                 }
                 
                 if (200...299).contains(httpResponse.statusCode) {
+                    print(httpResponse.statusCode)
                     if let data = data {
                         do {
                             let decodedResponse = try JSONDecoder().decode(ApiResponse.self, from: data)
                             self?.apiResponse = decodedResponse
-                            completion(decodedResponse.found)
+                            self?.parseApiResponse(data: data)
+                            if decodedResponse.data?.person?.forenames != nil {
+                                completion(decodedResponse.success!)
+                            } else {
+                                self?.alertTitle = "WRONG INFORMATION"
+                                self?.alertMessage = "Face and Pin Does not match"
+                                self?.showAlert = true
+                                completion(false)  // Ensure completion is called
+                            }
                             print(decodedResponse)
-                            
                         } catch {
                             self?.handleDecodingError(error)
                             completion(false)  // Ensure completion is called
                         }
                     } else {
                         self?.alertTitle = "NO DATA"
-                        self?.alertMessage = "No data reciewved from server"
+                        self?.alertMessage = "No data received from server"
                         self?.showAlert = true
                         completion(false)  // Ensure completion is called
                     }
                 } else {
-                    self?.handleServerError(statusCode: httpResponse.statusCode, data: data)
+                    print(httpResponse.statusCode)
+                    self?.handleServerError(info: data)
                     completion(false)  // Ensure completion is called
                 }
             }
@@ -156,22 +276,34 @@ class PersonViewModel: ObservableObject {
         alertMessage = error.localizedDescription
         showAlert = true
     }
-
+    
     private func handleDecodingError(_ error: Error) {
         print("yolo")
         alertTitle = "Decoding Error"
         alertMessage = "There was an error processing the server's response. Please try again later."
         showAlert = true
     }
-
-    private func handleServerError(statusCode: Int, data: Data?) {
-        alertTitle = "Server Error"
-        alertMessage = "The server encountered an error. Please try again later."
-        if let data = data, let responseString = String(data: data, encoding: .utf8) {
-            print("Server returned an error: \(responseString)")
+    
+    
+    private func handleServerError(info: Data?) {
+        guard let data = info else {
+            print("Error: No data to decode")
+            alertMessage = "No data available"
+            return
         }
-        showAlert = true
+        
+        do {
+            let game = try JSONDecoder().decode(ApiResponse.self, from: data)
+            apiResponse = game
+            alertMessage = game.msg
+            print("Server returned an error: \(game)")
+        } catch {
+            print("JSON Decoding Error: \(error)")
+            alertMessage = "Decoding error: \(error.localizedDescription)"
+        }
     }
+    
+    
     
     func parseApiResponse(data: Data) {
         do {
@@ -180,7 +312,7 @@ class PersonViewModel: ObservableObject {
             // Extract and store data into strings
             self.responseCode = decodedResponse.code
             self.responseMessage = decodedResponse.msg
-            self.successValue = decodedResponse.found
+            self.successValue = decodedResponse.success
             // Extract values from `DataResponse`
             if let dataResponse = decodedResponse.data {
                 self.shortGuid = dataResponse.shortGuid
@@ -200,22 +332,24 @@ class PersonViewModel: ObservableObject {
             print("Error decoding response: \(error)")
         }
     }
-    
-    
-    
-    func formattedResponse() -> String {
-        let code = responseCode ?? ""
-        let message = responseMessage ?? ""
-        let success = successValue
-        return "Code: \(code)\nMessage: \(message) \nSuccess: \(String(describing: success))"
-    }
-
-    
 }
 
 extension PersonViewModel {
     var fullName: String {
         return "\(forename ?? "") \(surname ?? "")"
+    }
+    
+    func writeToFile(base64String: String, fileName: String) {
+        if let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let fileURL = documentDirectory.appendingPathComponent(fileName + ".txt")
+            
+            do {
+                try base64String.write(to: fileURL, atomically: true, encoding: .utf8)
+                print("Successfully written to \(fileURL)")
+            } catch {
+                print("Error writing to file: \(error)")
+            }
+        }
     }
 }
 
@@ -228,11 +362,10 @@ extension PersonViewModel: Resettable {
         apiResponse = nil  // Assuming nil is the initial state for ApiResponse
         showResponseView = false
         rawResponseString = nil
-
         
         // Resetting properties from the ID API
         responseCode = nil
-        responseMessage = nil
+        responseMessage = ""
         successValue = nil
         shortGuid = nil
         faceImage = nil  // UIImage properties are optional, so set to nil

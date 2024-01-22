@@ -3,6 +3,9 @@ import SwiftUI
 struct CameraView: View {
     @ObservedObject var model:CameraModel
     @ObservedObject var appVM: AppViewModel
+    @ObservedObject var mrz: MRZCameraModel
+
+
     
     @Environment(\.colorScheme) var colorScheme  // Access the current color scheme
     
@@ -71,7 +74,9 @@ struct CameraView: View {
                         Spacer()
                         
                         Button{
-                            appVM.currentView = .pinMethod
+                            if mrz.patternFound{ appVM.currentView = .mrzFace }
+                            else { appVM.currentView = .pinMethod }
+                            model.stopcamera()
                         } label: {
                             Image(systemName: "xmark")
                                 .font(.system(size: 30, weight: .medium, design: .default))
@@ -135,8 +140,7 @@ struct CameraView: View {
             .fullScreenCover(isPresented: $model.isEditing) {
                 ImageEditorViewController(image: model.imageToEdit!) {
                     model.completeEditing(with: $0!)
-                    appVM.currentView = .pinMethod
-                } onEditingCancelled: {
+                 } onEditingCancelled: {
                     model.cancelEditing()
                 }
             }
@@ -145,5 +149,5 @@ struct CameraView: View {
 }
 
 #Preview {
-   CameraView(model: CameraModel(), appVM: AppViewModel())
+    CameraView(model: CameraModel(appVM: AppViewModel()), appVM: AppViewModel(), mrz: MRZCameraModel())
 }

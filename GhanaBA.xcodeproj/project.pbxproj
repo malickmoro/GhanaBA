@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		53299C1B2B5B1433009241BC /* Checkmark2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53299C1A2B5B1433009241BC /* Checkmark2.swift */; };
 		5361C0FC2B4D878000433CC1 /* GhanaBAApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5361C0FB2B4D878000433CC1 /* GhanaBAApp.swift */; };
 		5361C0FE2B4D878000433CC1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5361C0FD2B4D878000433CC1 /* ContentView.swift */; };
 		5361C1002B4D878200433CC1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5361C0FF2B4D878200433CC1 /* Assets.xcassets */; };
@@ -40,7 +41,6 @@
 		5361C17A2B4E203700433CC1 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5361C1792B4E203700433CC1 /* AppViewModel.swift */; };
 		5361C17F2B4ECF2B00433CC1 /* IdCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5361C17E2B4ECF2B00433CC1 /* IdCaptureView.swift */; };
 		5361C1812B4EDB5200433CC1 /* idCaptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5361C1802B4EDB5200433CC1 /* idCaptureViewModel.swift */; };
-		5361C1852B4EDE8300433CC1 /* MRZCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5361C1842B4EDE8300433CC1 /* MRZCaptureView.swift */; };
 		5361C1932B4EE4A300433CC1 /* CameraService+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5361C1882B4EE4A300433CC1 /* CameraService+Extensions.swift */; };
 		5361C1942B4EE4A300433CC1 /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5361C1892B4EE4A300433CC1 /* CameraPreview.swift */; };
 		5361C1952B4EE4A300433CC1 /* PhotoCaptureProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5361C18A2B4EE4A300433CC1 /* PhotoCaptureProcessor.swift */; };
@@ -61,9 +61,33 @@
 		5361C1C62B4F209F00433CC1 /* SuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5361C1C52B4F209F00433CC1 /* SuccessView.swift */; };
 		5361C1C92B4F20D000433CC1 /* NoFaceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5361C1C82B4F20D000433CC1 /* NoFaceError.swift */; };
 		5361C1CB2B4F20DE00433CC1 /* NotFoundError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5361C1CA2B4F20DE00433CC1 /* NotFoundError.swift */; };
+		5361C1CF2B4F3C6000433CC1 /* LoadingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5361C1CE2B4F3C6000433CC1 /* LoadingScreen.swift */; };
+		5361C1D12B4F3CA100433CC1 /* green loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 5361C1D02B4F3CA100433CC1 /* green loading.json */; };
+		5361C1D32B4F472200433CC1 /* error.json in Resources */ = {isa = PBXBuildFile; fileRef = 5361C1D22B4F472200433CC1 /* error.json */; };
+		5361C1D52B4F499200433CC1 /* check mark.json in Resources */ = {isa = PBXBuildFile; fileRef = 5361C1D42B4F499200433CC1 /* check mark.json */; };
+		5361C1D82B4F4DC900433CC1 /* ShowDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5361C1D72B4F4DC900433CC1 /* ShowDetails.swift */; };
+		5361C1DA2B500A5500433CC1 /* 0111b0b3-e20e-4242-b1e2-9eeeabc6d71c.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5361C1D92B500A5500433CC1 /* 0111b0b3-e20e-4242-b1e2-9eeeabc6d71c.gif */; };
+		5369152F2B5152C80075CF8C /* Testing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5369152E2B5152C80075CF8C /* Testing.swift */; };
+		536915322B517EFF0075CF8C /* MRZCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536915312B517EFF0075CF8C /* MRZCamera.swift */; };
+		536915382B5180AA0075CF8C /* OCRResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536915352B5180AA0075CF8C /* OCRResult.swift */; };
+		536915392B5180AA0075CF8C /* OCRManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536915362B5180AA0075CF8C /* OCRManager.swift */; };
+		5369153A2B5180AA0075CF8C /* OCRViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536915372B5180AA0075CF8C /* OCRViewModel.swift */; };
+		5369153C2B5183C00075CF8C /* MRZCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5369153B2B5183C00075CF8C /* MRZCameraView.swift */; };
+		5369153E2B5184BB0075CF8C /* MRZCameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5369153D2B5184BB0075CF8C /* MRZCameraModel.swift */; };
+		536915402B5192660075CF8C /* MRZCameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5369153F2B5192660075CF8C /* MRZCameraService.swift */; };
+		536915422B5197C90075CF8C /* MRZCameraServiceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536915412B5197C90075CF8C /* MRZCameraServiceExtension.swift */; };
+		53D52A402B554831000ED64C /* FaceCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D52A3F2B554831000ED64C /* FaceCapture.swift */; };
+		53D52A432B5548E8000ED64C /* FaceCaptureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D52A422B5548E8000ED64C /* FaceCaptureModel.swift */; };
+		53D52A722B55B94A000ED64C /* MRZParser in Frameworks */ = {isa = PBXBuildFile; productRef = 53D52A712B55B94A000ED64C /* MRZParser */; };
+		53D52A752B55B95E000ED64C /* MRZScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 53D52A742B55B95E000ED64C /* MRZScanner */; };
+		53D52A782B55B99A000ED64C /* MRZViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D52A772B55B99A000ED64C /* MRZViewController.swift */; };
+		53D52A7A2B55B9A2000ED64C /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D52A792B55B9A2000ED64C /* PreviewView.swift */; };
+		53D52A7C2B55BBD4000ED64C /* MRZOfficial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D52A7B2B55BBD4000ED64C /* MRZOfficial.swift */; };
+		53D52A7E2B55CE29000ED64C /* MainMRZ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D52A7D2B55CE29000ED64C /* MainMRZ.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		53299C1A2B5B1433009241BC /* Checkmark2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkmark2.swift; sourceTree = "<group>"; };
 		5361C0F82B4D878000433CC1 /* GhanaBA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GhanaBA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5361C0FB2B4D878000433CC1 /* GhanaBAApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhanaBAApp.swift; sourceTree = "<group>"; };
 		5361C0FD2B4D878000433CC1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -97,7 +121,6 @@
 		5361C1792B4E203700433CC1 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		5361C17E2B4ECF2B00433CC1 /* IdCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdCaptureView.swift; sourceTree = "<group>"; };
 		5361C1802B4EDB5200433CC1 /* idCaptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = idCaptureViewModel.swift; sourceTree = "<group>"; };
-		5361C1842B4EDE8300433CC1 /* MRZCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRZCaptureView.swift; sourceTree = "<group>"; };
 		5361C1882B4EE4A300433CC1 /* CameraService+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CameraService+Extensions.swift"; sourceTree = "<group>"; };
 		5361C1892B4EE4A300433CC1 /* CameraPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
 		5361C18A2B4EE4A300433CC1 /* PhotoCaptureProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCaptureProcessor.swift; sourceTree = "<group>"; };
@@ -116,6 +139,27 @@
 		5361C1C52B4F209F00433CC1 /* SuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessView.swift; sourceTree = "<group>"; };
 		5361C1C82B4F20D000433CC1 /* NoFaceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoFaceError.swift; sourceTree = "<group>"; };
 		5361C1CA2B4F20DE00433CC1 /* NotFoundError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotFoundError.swift; sourceTree = "<group>"; };
+		5361C1CE2B4F3C6000433CC1 /* LoadingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreen.swift; sourceTree = "<group>"; };
+		5361C1D02B4F3CA100433CC1 /* green loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "green loading.json"; sourceTree = "<group>"; };
+		5361C1D22B4F472200433CC1 /* error.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error.json; sourceTree = "<group>"; };
+		5361C1D42B4F499200433CC1 /* check mark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "check mark.json"; sourceTree = "<group>"; };
+		5361C1D72B4F4DC900433CC1 /* ShowDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetails.swift; sourceTree = "<group>"; };
+		5361C1D92B500A5500433CC1 /* 0111b0b3-e20e-4242-b1e2-9eeeabc6d71c.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "0111b0b3-e20e-4242-b1e2-9eeeabc6d71c.gif"; sourceTree = "<group>"; };
+		5369152E2B5152C80075CF8C /* Testing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Testing.swift; sourceTree = "<group>"; };
+		536915312B517EFF0075CF8C /* MRZCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRZCamera.swift; sourceTree = "<group>"; };
+		536915352B5180AA0075CF8C /* OCRResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCRResult.swift; sourceTree = "<group>"; };
+		536915362B5180AA0075CF8C /* OCRManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCRManager.swift; sourceTree = "<group>"; };
+		536915372B5180AA0075CF8C /* OCRViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCRViewModel.swift; sourceTree = "<group>"; };
+		5369153B2B5183C00075CF8C /* MRZCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRZCameraView.swift; sourceTree = "<group>"; };
+		5369153D2B5184BB0075CF8C /* MRZCameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRZCameraModel.swift; sourceTree = "<group>"; };
+		5369153F2B5192660075CF8C /* MRZCameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRZCameraService.swift; sourceTree = "<group>"; };
+		536915412B5197C90075CF8C /* MRZCameraServiceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRZCameraServiceExtension.swift; sourceTree = "<group>"; };
+		53D52A3F2B554831000ED64C /* FaceCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceCapture.swift; sourceTree = "<group>"; };
+		53D52A422B5548E8000ED64C /* FaceCaptureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceCaptureModel.swift; sourceTree = "<group>"; };
+		53D52A772B55B99A000ED64C /* MRZViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRZViewController.swift; sourceTree = "<group>"; };
+		53D52A792B55B9A2000ED64C /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
+		53D52A7B2B55BBD4000ED64C /* MRZOfficial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRZOfficial.swift; sourceTree = "<group>"; };
+		53D52A7D2B55CE29000ED64C /* MainMRZ.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMRZ.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,8 +168,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5361C15E2B4DED1F00433CC1 /* Lottie in Frameworks */,
+				53D52A752B55B95E000ED64C /* MRZScanner in Frameworks */,
 				5361C1AA2B4EE62700433CC1 /* TOCropViewController in Frameworks */,
 				5361C1A82B4EE62700433CC1 /* CropViewController in Frameworks */,
+				53D52A722B55B94A000ED64C /* MRZParser in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,6 +204,7 @@
 				5361C10B2B4D883700433CC1 /* Models */,
 				5361C10A2B4D882E00433CC1 /* Utils */,
 				5361C0FF2B4D878200433CC1 /* Assets.xcassets */,
+				5361C1D92B500A5500433CC1 /* 0111b0b3-e20e-4242-b1e2-9eeeabc6d71c.gif */,
 				5361C1012B4D878200433CC1 /* Preview Content */,
 			);
 			path = GhanaBA;
@@ -191,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				5361C19B2B4EE4C200433CC1 /* ImageConverter.swift */,
+				5369152E2B5152C80075CF8C /* Testing.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -216,12 +264,12 @@
 		5361C10D2B4D897300433CC1 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				5361C1C22B4F205E00433CC1 /* Response */,
 				5361C1862B4EE4A300433CC1 /* Camera */,
 				5361C1432B4DD34900433CC1 /* IdCapture */,
 				5361C19D2B4EE4E200433CC1 /* Image Edittor */,
-				5361C1822B4EDE6400433CC1 /* MRZCapture */,
 				5361C1112B4D8D9700433CC1 /* Intro */,
+				5361C1822B4EDE6400433CC1 /* MRZCapture */,
+				5361C1C22B4F205E00433CC1 /* Response */,
 				5361C1102B4D8D8E00433CC1 /* Root */,
 			);
 			path = Core;
@@ -293,6 +341,10 @@
 		5361C1822B4EDE6400433CC1 /* MRZCapture */ = {
 			isa = PBXGroup;
 			children = (
+				53D52A762B55B985000ED64C /* MRZOfficial */,
+				53D52A412B5548D8000ED64C /* Model */,
+				536915302B517EEE0075CF8C /* CustomCamera */,
+				536915342B5180AA0075CF8C /* OCR */,
 				5361C1832B4EDE6F00433CC1 /* View */,
 			);
 			path = MRZCapture;
@@ -301,7 +353,7 @@
 		5361C1832B4EDE6F00433CC1 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				5361C1842B4EDE8300433CC1 /* MRZCaptureView.swift */,
+				53D52A3F2B554831000ED64C /* FaceCapture.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -394,7 +446,11 @@
 			isa = PBXGroup;
 			children = (
 				5361C13D2B4DC89B00433CC1 /* CheckmarkAnimation.swift */,
+				5361C1D42B4F499200433CC1 /* check mark.json */,
+				5361C1D02B4F3CA100433CC1 /* green loading.json */,
+				5361C1D22B4F472200433CC1 /* error.json */,
 				5361C1772B4DF5F300433CC1 /* card load.json */,
+				53299C1A2B5B1433009241BC /* Checkmark2.swift */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -405,6 +461,7 @@
 				5361C15F2B4DED5900433CC1 /* LottieView.swift */,
 				5361C1752B4DF5A900433CC1 /* guywithLottie.swift */,
 				5361C1612B4DED7E00433CC1 /* LottiePlusView.swift */,
+				5361C1CE2B4F3C6000433CC1 /* LoadingScreen.swift */,
 			);
 			path = Lottie;
 			sourceTree = "<group>";
@@ -438,8 +495,8 @@
 		5361C1C22B4F205E00433CC1 /* Response */ = {
 			isa = PBXGroup;
 			children = (
+				5361C1D62B4F4DB300433CC1 /* Sucess */,
 				5361C1C72B4F20B200433CC1 /* Failed */,
-				5361C1C52B4F209F00433CC1 /* SuccessView.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -456,8 +513,8 @@
 		5361C1CC2B4F21C300433CC1 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				5361C1C02B4F1E0E00433CC1 /* PersonViewModel.swift */,
 				5361C1792B4E203700433CC1 /* AppViewModel.swift */,
+				5361C1C02B4F1E0E00433CC1 /* PersonViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -468,6 +525,56 @@
 				5361C0FB2B4D878000433CC1 /* GhanaBAApp.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		5361C1D62B4F4DB300433CC1 /* Sucess */ = {
+			isa = PBXGroup;
+			children = (
+				5361C1C52B4F209F00433CC1 /* SuccessView.swift */,
+				5361C1D72B4F4DC900433CC1 /* ShowDetails.swift */,
+			);
+			path = Sucess;
+			sourceTree = "<group>";
+		};
+		536915302B517EEE0075CF8C /* CustomCamera */ = {
+			isa = PBXGroup;
+			children = (
+				536915312B517EFF0075CF8C /* MRZCamera.swift */,
+				5369153B2B5183C00075CF8C /* MRZCameraView.swift */,
+				5369153D2B5184BB0075CF8C /* MRZCameraModel.swift */,
+				5369153F2B5192660075CF8C /* MRZCameraService.swift */,
+				536915412B5197C90075CF8C /* MRZCameraServiceExtension.swift */,
+			);
+			path = CustomCamera;
+			sourceTree = "<group>";
+		};
+		536915342B5180AA0075CF8C /* OCR */ = {
+			isa = PBXGroup;
+			children = (
+				536915352B5180AA0075CF8C /* OCRResult.swift */,
+				536915362B5180AA0075CF8C /* OCRManager.swift */,
+				536915372B5180AA0075CF8C /* OCRViewModel.swift */,
+			);
+			path = OCR;
+			sourceTree = "<group>";
+		};
+		53D52A412B5548D8000ED64C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				53D52A422B5548E8000ED64C /* FaceCaptureModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		53D52A762B55B985000ED64C /* MRZOfficial */ = {
+			isa = PBXGroup;
+			children = (
+				53D52A772B55B99A000ED64C /* MRZViewController.swift */,
+				53D52A792B55B9A2000ED64C /* PreviewView.swift */,
+				53D52A7B2B55BBD4000ED64C /* MRZOfficial.swift */,
+				53D52A7D2B55CE29000ED64C /* MainMRZ.swift */,
+			);
+			path = MRZOfficial;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -490,6 +597,8 @@
 				5361C15D2B4DED1F00433CC1 /* Lottie */,
 				5361C1A72B4EE62700433CC1 /* CropViewController */,
 				5361C1A92B4EE62700433CC1 /* TOCropViewController */,
+				53D52A712B55B94A000ED64C /* MRZParser */,
+				53D52A742B55B95E000ED64C /* MRZScanner */,
 			);
 			productName = GhanaBA;
 			productReference = 5361C0F82B4D878000433CC1 /* GhanaBA.app */;
@@ -522,6 +631,8 @@
 			packageReferences = (
 				5361C15C2B4DED1F00433CC1 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				5361C1A62B4EE62700433CC1 /* XCRemoteSwiftPackageReference "TOCropViewController" */,
+				53D52A702B55B94A000ED64C /* XCRemoteSwiftPackageReference "MRZParser" */,
+				53D52A732B55B95E000ED64C /* XCRemoteSwiftPackageReference "MRZScanner" */,
 			);
 			productRefGroup = 5361C0F92B4D878000433CC1 /* Products */;
 			projectDirPath = "";
@@ -545,10 +656,14 @@
 				5361C1732B4DEFF700433CC1 /* MRZ.mp4 in Resources */,
 				5361C1262B4D9F0C00433CC1 /* whiteLogo.png in Resources */,
 				5361C1032B4D878200433CC1 /* Preview Assets.xcassets in Resources */,
+				5361C1D32B4F472200433CC1 /* error.json in Resources */,
 				5361C1202B4D9D9D00433CC1 /* ghanabaLogo .png in Resources */,
+				5361C1D12B4F3CA100433CC1 /* green loading.json in Resources */,
 				5361C1002B4D878200433CC1 /* Assets.xcassets in Resources */,
+				5361C1D52B4F499200433CC1 /* check mark.json in Resources */,
 				5361C1242B4D9DAD00433CC1 /* splash.png in Resources */,
 				5361C1222B4D9DA200433CC1 /* guy.png in Resources */,
+				5361C1DA2B500A5500433CC1 /* 0111b0b3-e20e-4242-b1e2-9eeeabc6d71c.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,44 +675,61 @@
 			buildActionMask = 2147483647;
 			files = (
 				5361C1972B4EE4A300433CC1 /* CameraModel.swift in Sources */,
+				5361C1CF2B4F3C6000433CC1 /* LoadingScreen.swift in Sources */,
 				5361C1452B4DD35D00433CC1 /* VideoCarouselView.swift in Sources */,
+				53D52A7E2B55CE29000ED64C /* MainMRZ.swift in Sources */,
 				5361C1622B4DED7E00433CC1 /* LottiePlusView.swift in Sources */,
 				5361C1C12B4F1E0E00433CC1 /* PersonViewModel.swift in Sources */,
+				53299C1B2B5B1433009241BC /* Checkmark2.swift in Sources */,
 				5361C1932B4EE4A300433CC1 /* CameraService+Extensions.swift in Sources */,
 				5361C1B52B4EE7C100433CC1 /* CameraService.swift in Sources */,
 				5361C17A2B4E203700433CC1 /* AppViewModel.swift in Sources */,
 				5361C1992B4EE4A300433CC1 /* CameraService+Enums.swift in Sources */,
+				5369153C2B5183C00075CF8C /* MRZCameraView.swift in Sources */,
 				5361C1142B4D8DE500433CC1 /* SplashScreen.swift in Sources */,
+				53D52A7A2B55B9A2000ED64C /* PreviewView.swift in Sources */,
 				5361C1322B4DB27E00433CC1 /* SplashScreenGIF.swift in Sources */,
 				5361C1C62B4F209F00433CC1 /* SuccessView.swift in Sources */,
+				5369153A2B5180AA0075CF8C /* OCRViewModel.swift in Sources */,
 				5361C1CB2B4F20DE00433CC1 /* NotFoundError.swift in Sources */,
 				5361C1762B4DF5A900433CC1 /* guywithLottie.swift in Sources */,
 				5361C1AE2B4EE6D100433CC1 /* Resettable.swift in Sources */,
 				5361C1962B4EE4A300433CC1 /* ImageResizer.swift in Sources */,
+				536915422B5197C90075CF8C /* MRZCameraServiceExtension.swift in Sources */,
 				5361C12C2B4DAA5900433CC1 /* CustomImageWithText.swift in Sources */,
 				5361C12E2B4DB16700433CC1 /* SplashScreenViewController.swift in Sources */,
 				5361C1812B4EDB5200433CC1 /* idCaptureViewModel.swift in Sources */,
 				5361C13E2B4DC89B00433CC1 /* CheckmarkAnimation.swift in Sources */,
 				5361C1602B4DED5900433CC1 /* LottieView.swift in Sources */,
 				5361C0FE2B4D878000433CC1 /* ContentView.swift in Sources */,
+				53D52A402B554831000ED64C /* FaceCapture.swift in Sources */,
 				5361C1382B4DB77000433CC1 /* StartScreen.swift in Sources */,
 				5361C12A2B4DA7A900433CC1 /* SecondOne.swift in Sources */,
 				5361C13C2B4DC58B00433CC1 /* CustomButton.swift in Sources */,
 				5361C13A2B4DBB5400433CC1 /* ChooseMethod.swift in Sources */,
 				5361C17F2B4ECF2B00433CC1 /* IdCaptureView.swift in Sources */,
+				53D52A432B5548E8000ED64C /* FaceCaptureModel.swift in Sources */,
 				5361C1A22B4EE4E200433CC1 /* ImageEditor.swift in Sources */,
-				5361C1852B4EDE8300433CC1 /* MRZCaptureView.swift in Sources */,
+				536915382B5180AA0075CF8C /* OCRResult.swift in Sources */,
+				53D52A782B55B99A000ED64C /* MRZViewController.swift in Sources */,
+				53D52A7C2B55BBD4000ED64C /* MRZOfficial.swift in Sources */,
+				5361C1D82B4F4DC900433CC1 /* ShowDetails.swift in Sources */,
 				5361C1982B4EE4A300433CC1 /* CameraView.swift in Sources */,
+				5369153E2B5184BB0075CF8C /* MRZCameraModel.swift in Sources */,
 				5361C1942B4EE4A300433CC1 /* CameraPreview.swift in Sources */,
 				5361C1A12B4EE4E200433CC1 /* ImageEditorViewController.swift in Sources */,
+				536915402B5192660075CF8C /* MRZCameraService.swift in Sources */,
 				5361C1C92B4F20D000433CC1 /* NoFaceError.swift in Sources */,
 				5361C1952B4EE4A300433CC1 /* PhotoCaptureProcessor.swift in Sources */,
+				536915392B5180AA0075CF8C /* OCRManager.swift in Sources */,
 				5361C1BF2B4F086200433CC1 /* SwiftUIView.swift in Sources */,
+				5369152F2B5152C80075CF8C /* Testing.swift in Sources */,
 				5361C19C2B4EE4C200433CC1 /* ImageConverter.swift in Sources */,
 				5361C1162B4D8E1D00433CC1 /* GetStarted.swift in Sources */,
 				5361C0FC2B4D878000433CC1 /* GhanaBAApp.swift in Sources */,
 				5361C1422B4DD28000433CC1 /* VideoPlayerView.swift in Sources */,
 				5361C1AC2B4EE68200433CC1 /* LoadingVC.swift in Sources */,
+				536915322B517EFF0075CF8C /* MRZCamera.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -735,20 +867,23 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GhanaBA/Preview Content\"";
-				DEVELOPMENT_TEAM = 954955YQGF;
+				DEVELOPMENT_TEAM = 42N56N9SH8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to take photos.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app requires access to the microphone for audio recording.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.marginsgroup.app.GhanaBA;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marginsgroup.app.ghba;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -764,20 +899,23 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GhanaBA/Preview Content\"";
-				DEVELOPMENT_TEAM = 954955YQGF;
+				DEVELOPMENT_TEAM = 42N56N9SH8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to take photos.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app requires access to the microphone for audio recording.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.marginsgroup.app.GhanaBA;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marginsgroup.app.ghba;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -825,6 +963,22 @@
 				minimumVersion = 2.6.1;
 			};
 		};
+		53D52A702B55B94A000ED64C /* XCRemoteSwiftPackageReference "MRZParser" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/appintheair/MRZParser.git";
+			requirement = {
+				branch = develop;
+				kind = branch;
+			};
+		};
+		53D52A732B55B95E000ED64C /* XCRemoteSwiftPackageReference "MRZScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/appintheair/MRZScanner.git";
+			requirement = {
+				branch = develop;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -842,6 +996,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5361C1A62B4EE62700433CC1 /* XCRemoteSwiftPackageReference "TOCropViewController" */;
 			productName = TOCropViewController;
+		};
+		53D52A712B55B94A000ED64C /* MRZParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 53D52A702B55B94A000ED64C /* XCRemoteSwiftPackageReference "MRZParser" */;
+			productName = MRZParser;
+		};
+		53D52A742B55B95E000ED64C /* MRZScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 53D52A732B55B95E000ED64C /* XCRemoteSwiftPackageReference "MRZScanner" */;
+			productName = MRZScanner;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

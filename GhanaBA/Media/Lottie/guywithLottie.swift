@@ -16,10 +16,6 @@ struct guywithLottie: View {
                 .scaledToFit()
                 .clipShape(RoundedRectangle(cornerRadius: 40))
                 .shadow(radius: 7)
-                .overlay {
-                        LottieView(name: "card load", width: 120, height: 130, loopMode: .loop, animationSpeed: 1)
-                        .padding(.leading, UIScreen.main.bounds.width / 2)
-                }
             
            
         }

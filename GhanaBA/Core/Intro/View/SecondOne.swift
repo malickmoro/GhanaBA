@@ -37,7 +37,7 @@ struct SecondOne: View {
                                 .bold()
                                 .foregroundStyle(.white)
                                 .frame(width: 130, height: 80)
-                                .font(.title3)
+                                .font(.system(size: 20, weight: .semibold))
                                 .background(blue)
                                 .clipShape(Circle())
                                 .shadow(radius: 10)

@@ -33,6 +33,7 @@ extension idCaptureViewModel: Resettable {
     isImageSelected = false
     image = nil
     editedImage = nil
+    isInvalid = false
 
     }
 }

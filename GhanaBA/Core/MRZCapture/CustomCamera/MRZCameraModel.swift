@@ -1,38 +1,51 @@
+//
+//  MRZCameraModel.swift
+//  GhanaBA
+//
+//  Created by Malick Moro-Samah on 1/12/24.
+//
+
 import SwiftUI
 import Combine
 import AVFoundation
 
-final class CameraModel: ObservableObject, CameraServiceDelegate {
-    let service = CameraService()
-    var idVM: idCaptureViewModel?
-    private var cancellables = Set<AnyCancellable>()
+@available(iOS 16.0, *)
 
+final class MRZCameraModel: ObservableObject, MRZCameraServiceDelegate {
+    
+    lazy var service: MRZCameraService = {
+           let service = MRZCameraService(viewModel: self)
+           return service
+       }()
+    var appVM: AppViewModel?
+    var idVM: idCaptureViewModel?
+    var ocr: OCRViewModel?
+    private var cancellables = Set<AnyCancellable>()
+    
     var onEditingDone: ((UIImage) -> Void)?
     var onEditingCancelled: (() -> Void)?
     
     @Published var photo: Photo!
-    @Published var editedImage: UIImage?
+    @Published var ocrViewModel = OCRViewModel()
     @Published var showAlertError = false
     @Published var isFlashOn = false
     @Published var willCapturePhoto = false
     @Published var imageToEdit: UIImage?
     @Published var capturedPhoto = false
-    @Published var isEditing = false  // Track if the editor is presented
     @Published var shouldRestartSession = false  // Track if the camera session
-    @ObservedObject var appVM: AppViewModel
+    @Published var patternFound = false
+    @Published var extractedText = ""
+
 
     
     var alertError: AlertError!
-    var session: AVCaptureSession
+    var session: AVCaptureSession?
     private var subscriptions = Set<AnyCancellable>()
     
-    init(idVM: idCaptureViewModel? = nil, appVM: AppViewModel) {
+    init(idVM: idCaptureViewModel? = nil, appVM: AppViewModel? = nil) {
+        self.idVM = idVM
         self.appVM = appVM
         self.session = service.session
-        self.idVM = idVM
-        service.delegate = self  // Set the delegate Set the delegate
-        
-        
         service.$photo.sink { [weak self] (photo) in
             guard let pic = photo else { return }
             self?.photo = pic
@@ -56,90 +69,99 @@ final class CameraModel: ObservableObject, CameraServiceDelegate {
         .store(in: &self.subscriptions)
     }
     
-    
-    func capturePhoto() {
-        service.capturePhoto()
-
-    }
-    
-    func stopcamera(){
-        service.stop()
-    }
-    
     func configure() {
         service.checkForPermissions()
         service.configure()
+    }
+    
+    func cameraService(_ service: MRZCameraService, didCapturePhoto photo: UIImage) {
+        // Handle the captured photo, e.g., update the UI or process the photo
+        DispatchQueue.main.async {
+            self.imageToEdit = photo
+            // Any other UI updates or processing
+        }
+    }
+    
+    
+    func stopcamera(){
+        service.stop()
     }
     
     func startCam(){
         service.start()
     }
     
-    func flipCamera() {
-        service.changeCamera()
-    }
-    
-    func zoom(with factor: CGFloat) {
-        service.set(zoom: factor)
-    }
     
     func switchFlash() {
         service.flashMode = service.flashMode == .on ? .off : .on
     }
     
-    func photoCaptureProcessor(_ processor: PhotoCaptureProcessor, didFinishProcessingPhoto image: UIImage) {
-
+    func photoCaptureProcessor(_ processor: PhotosCaptureProcessor, didFinishProcessingPhoto image: UIImage) {
+        
     }
-
-    func photoCaptureProcessorDidCancel(_ processor: PhotoCaptureProcessor) {
+    
+    func cameraService(_ service: MRZCameraService, didRecognizeText text: [String]) {
+        DispatchQueue.main.async {
+            let (patternFound, extractedMRZ) = service.extractSpecificText(from: text)
+            if patternFound, let mrz = extractedMRZ {
+                self.patternFound = true
+                print("MRZ Found: \(mrz)")
+             } else {
+                print("No MRZ found.")
+            }
+        }
+    }
+    
+    
+    func focus(at point: CGPoint) {
+        // Assuming you have an instance of MRZCameraService
+        service.focus(at: point)
+    }
+    
+    func photoCaptureProcessorDidCancel(_ processor: PhotosCaptureProcessor) {
         // Handle cancellation
     }
     
     func cameraService(_ service: CameraService, didCapturePhoto photo: UIImage) {
         // Handle the captured photo, perhaps by presenting the editor
-
+        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.imageToEdit = photo
-            self.isEditing = true  // Set to true to present the editor
         }
     }
-
-    func cameraServiceDidFail(_ service: CameraService, error: Error) {
-        // Handle the error, perhaps by showing an alert to the user
+    
+    func cameraServiceDidFail(_ service: MRZCameraService, error: Error) {
+        
     }
     
-    func completeEditing(with editedImage: UIImage) {
-        self.editedImage = editedImage
-        print(self.editedImage ?? "try")
-        self.appVM.imageToShow = editedImage
-        self.isEditing = false  // This will dismiss the image editor
-        DispatchQueue.main.async {
-            if self.appVM.mrzGO == false {
-                self.appVM.currentView = .pinMethod
+    func capturePhoto() {
+        service.capturePhoto { [weak self] photo in
+            
+            if let self = self, let photoData = photo?.originalData, let image = UIImage(data: photoData) {
+                // Pass the UIImage to OCRViewModel for processing
+                DispatchQueue.main.async {
+                    self.ocrViewModel.selectItem(image)
+                }
             } else {
-                self.appVM.currentView = .mrzFace
+                print("No photo data captured.")
             }
         }
     }
-        
-    func cancelEditing() {
-        self.isEditing = false  // Dismiss the editor
-    }
 }
+@available(iOS 16.0, *)
 
-
-extension CameraModel: Resettable {
+extension MRZCameraModel: Resettable {
     func reset() {
         // Resetting UIImage and Boolean properties to their default states
-        editedImage = nil  // UIImage properties are optional, so set to nil
         showAlertError = false
         isFlashOn = false
         willCapturePhoto = false
         imageToEdit = nil  // UIImage properties are optional, so set to nil
         capturedPhoto = false
-        isEditing = false
         shouldRestartSession = false
+        patternFound = false
+        extractedText = ""
 
         // Reset or clear any complex properties if needed
         alertError = nil  // Assuming nil is the initial state
@@ -153,3 +175,4 @@ extension CameraModel: Resettable {
         subscriptions.removeAll()
     }
 }
+

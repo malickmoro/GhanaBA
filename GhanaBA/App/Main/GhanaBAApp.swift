@@ -7,10 +7,11 @@
 
 import SwiftUI
 @available(iOS 16.0, *)
+@available(iOS 17.0, *)
 
 @main
 struct GhanaBAApp: App {
-    var appVM = AppViewModel()  // Instance of your navigation controller
+   @StateObject var appVM = AppViewModel()  // Instance of your navigation controller
 
     var body: some Scene {
         WindowGroup {

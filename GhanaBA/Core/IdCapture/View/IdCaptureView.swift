@@ -7,52 +7,59 @@
 
 import SwiftUI
 
+@available(iOS 17.0, *)
 struct IdCaptureView: View {
     @ObservedObject var idVM: idCaptureViewModel
     @ObservedObject var appVM: AppViewModel
     @ObservedObject var cmVM: CameraModel
     @ObservedObject var pVM: PersonViewModel
+    @ObservedObject var face: FaceCaptureModel
+
    
     @State var showAlert: Bool = false
+    @State var stop: Bool = false
     
     var logoWidth: CGFloat = 160
     var logoHeight: CGFloat = 80
     let blue = Color(red: 0/255, green: 51/255, blue: 171/255)
+    let green = Color(red: 7/255, green: 175/255, blue: 124/255)
+
     
     
     var body: some View {
         ZStack {
-            Color.gray.opacity(0.1).ignoresSafeArea()
+            Color.white.ignoresSafeArea()
             Image("ghana")
                 .resizable()
                 .frame(width: logoWidth, height: logoHeight)
                 .padding(.top, 750)
                 .padding(.leading, 20)
             
+            
+            
             ScrollView(showsIndicators: false) {
                 VStack {
                     VStack (spacing: 20){
                         Text("Ghana Card \nVerification")
-                            .font(.largeTitle)
-                            .bold()
+                            .font(.system(size: 35, weight: .bold))
                             .foregroundStyle(blue)
                         
-                        if let editedImage = cmVM.editedImage {
+                        if let editedImage = appVM.imageToShow {
                             Image(uiImage: editedImage)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: UIScreen.main.bounds.width - 100, height: UIScreen.main.bounds.height/3)
                                 .clipShape(Circle())
-                                .shadow(radius:1)
+                                .shadow(radius:2)
                                 .onAppear {
-                                    idVM.isImageSelected = cmVM.editedImage != nil
+                                    idVM.isImageSelected = appVM.imageToShow != nil
                                 }
                                 .onTapGesture(count: 2, perform: capturePhotoPressed)
                         } else {
                             Circle()
                                 .frame(width: 250)
                                 .foregroundColor(.white)
-                                .shadow(radius:1)
+                                .shadow(radius:3)
                                 .overlay {
                                     Button {
                                         appVM.currentView = .camera
@@ -60,9 +67,10 @@ struct IdCaptureView: View {
                                         VStack(spacing: 10) {
                                             Image (systemName: "camera")
                                                 .resizable()
-                                                .frame(width: 50,height: 50)
+                                                .frame(width: 50,height: 40)
                                             
                                             Text ("Tap here to \ncapture image")
+                                                .font(.system(size: 18, weight: .medium))
                                                 .foregroundStyle(blue)
                                         }
                                     }
@@ -73,10 +81,11 @@ struct IdCaptureView: View {
                             .frame(width: 350, height: 120)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .foregroundColor(.white)
+                            .shadow(radius:3)
                             .overlay {
                                 VStack (alignment: .leading, spacing: 5){
                                     Text ("Enter Ghana Card Number")
-                                        .font(.headline)
+                                        .font(.system(size: 20, weight: .semibold))
                                         .foregroundStyle(blue)
                                     
                                     TextField("", text: Binding(
@@ -89,6 +98,7 @@ struct IdCaptureView: View {
                                         .padding(.horizontal, 10) // Add horizontal padding inside the TextField
                                         .frame(width: 300, height: 45)
                                         .background(blue.opacity(0.1))
+                                        .foregroundStyle(.black)
                                         .clipShape(RoundedRectangle(cornerRadius: 10))
                                         .overlay {
                                             HStack {
@@ -117,10 +127,9 @@ struct IdCaptureView: View {
                                 
                             } label: {
                                 Text("Submit")
-                                    .font(.title2)
-                                    .fontWeight(.semibold)
+                                    .font(.system(size: 20, weight: .semibold))
                                     .frame(width: 150, height: 50, alignment: .center)
-                                    .background(.green)
+                                    .background(green)
                                     .foregroundStyle(.white)
                                     .clipShape(RoundedRectangle(cornerRadius: 20))
                                     .shadow(radius:5)
@@ -128,12 +137,18 @@ struct IdCaptureView: View {
                             }
                             
                             Button {
-                                appVM.currentView = .chooseMethod
-                                idVM.reset()
+                                withAnimation(.easeOut) {
+                                    appVM.currentView = .chooseMethod
+                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                                    idVM.reset()
+                                    cmVM.reset()
+                                    appVM.reset()
+                                    pVM.reset()
+                                }
                             } label: {
                                 Text("Cancel")
-                                    .font(.title2)
-                                    .fontWeight(.semibold)
+                                    .font(.system(size: 20, weight: .semibold))
                                     .frame(width: 150, height: 50, alignment: .center)
                                     .background(.red)
                                     .foregroundStyle(.white)
@@ -143,12 +158,19 @@ struct IdCaptureView: View {
                             }
                         }
                     }
+                    .padding(35)
                 }
             }
-            .padding(25)
             .sheet(isPresented: $idVM.showAlert, content: {
-                NoPhotoError(idVM: idVM)
+                NoPhotoError(idVM: idVM, face: face)
             })
+            
+            if  pVM.isLoading {
+                VStack {
+                    Checkmark2(stop: $stop).ignoresSafeArea().background(.gray.opacity(0.4))
+                    
+                }
+            }
         }
     }
     
@@ -157,10 +179,11 @@ struct IdCaptureView: View {
         checkImage()
         
         if idVM.isPinValid && idVM.isImageSelected {
-            idVM.editedImage = cmVM.editedImage
+            pVM.editedImage = appVM.imageToShow
+            pVM.generatedID = idVM.pin
             pVM.verifyIDAndImage { transactionFound in
                 DispatchQueue.main.async {
-                    if transactionFound {
+                    if transactionFound && stop == true {
                         // If the 'found' boolean is true, change the view
                         appVM.currentView = .success
                     } else {
@@ -193,6 +216,8 @@ struct IdCaptureView: View {
     }
 }
 
+
+@available(iOS 17.0, *)
 #Preview {
-    IdCaptureView(idVM: idCaptureViewModel(), appVM: AppViewModel(), cmVM: CameraModel(), pVM: PersonViewModel())
+    IdCaptureView(idVM: idCaptureViewModel(), appVM: AppViewModel(), cmVM: CameraModel(appVM: AppViewModel()), pVM: PersonViewModel(), face: FaceCaptureModel())
 }
